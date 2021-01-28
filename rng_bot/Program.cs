@@ -16,8 +16,8 @@ namespace rng_bot
 
         // There is no need to implement IDisposable like before as we are
         // using dependency injection, which handles calling Dispose for us.
-        static void Main(string[] args)
-            => new Program().MainAsync().GetAwaiter().GetResult();
+        static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
+
         public async Task MainAsync()
         {
 
@@ -34,7 +34,7 @@ namespace rng_bot
 
                 // Tokens should be considered secret data and never hard-coded.
                 // We can read from the environment variable to avoid hardcoding.
-                await client.LoginAsync(TokenType.Bot, "NTU2OTQyNDg4MjkyODE4OTU0.XI6zHA.vKFy0JBuUhiHAMna9nm7syH2-zc");
+                await client.LoginAsync(TokenType.Bot, Environment.GetEnvironmentVariable(botToken));
                 await client.StartAsync();
 
                 // Here we initialize the logic required to register our commands.
