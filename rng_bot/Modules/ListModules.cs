@@ -25,16 +25,10 @@ namespace rng_bot.Modules
         [Summary("If you don't know what this does you need help.")]
         public async Task Help()
         {
-            List<CommandInfo> commands = _service.Commands.ToList();
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
-            foreach (CommandInfo command in commands)
-            {
-                // Get the command Summary attribute information
-                var embedFieldText = command.Summary ?? "No description available\n";
-
-                embedBuilder.AddField(command.Name, embedFieldText);
-            }
+            _service.Commands.ToList()
+                .ForEach(x => embedBuilder.AddField(x.Name, x.Summary ?? "No description available\n"));
 
             await ReplyAsync("Here's a list of commands and their description: ", false, embedBuilder.Build());
         }
