@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,17 +36,24 @@ namespace rng_bot.Controllers
 
             List<DieRoll> diceRolls = new List<DieRoll>();
 
-            foreach (Match match in matches)
-            {
-                var diceVals = Regex.Split(match.Value, _dieSplitPattern, RegexOptions.IgnoreCase);
-
-                int.TryParse(diceVals[_numDiceIndex], out int numDice);
-                int.TryParse(diceVals[_maxValIndex], out int maxDieVal);
-
-                diceRolls.Add(new DieRoll(numDice, maxDieVal));
-            }
+            matches.ToList().ForEach(x => DieRollAction(x, diceRolls));
 
             return diceRolls;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="match"></param>
+        /// <param name="diceRolls"></param>
+        private void DieRollAction(Match match, List<DieRoll> diceRolls)
+        {
+            var diceVals = Regex.Split(match.Value, _dieSplitPattern, RegexOptions.IgnoreCase);
+
+            int.TryParse(diceVals[_numDiceIndex], out int numDice);
+            int.TryParse(diceVals[_maxValIndex], out int maxDieVal);
+
+            diceRolls.Add(new DieRoll(numDice, maxDieVal));
         }
 
         /// <summary>
