@@ -1,10 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
-using Discord;
-using Discord.Commands;
-using Discord.WebSocket;
 
 namespace rng_bot.Services
 {
@@ -13,8 +13,8 @@ namespace rng_bot.Services
         private readonly CommandService _commands;
         private readonly DiscordSocketClient _discord;
         private readonly IServiceProvider _services;
-        public string _prevRollCommand { get; set; } = "";
-        public Random _rand = new Random();
+        public string prevRollCommand { get; set; } = "";
+        public Random rand = new Random();
 
         public CommandHandler(IServiceProvider services)
         {

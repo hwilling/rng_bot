@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
-using Discord;
+﻿using Discord;
 using Discord.Commands;
 using rng_bot.Controllers;
 using rng_bot.Extensions;
 using rng_bot.Services;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace rng_bot.Modules
 {
@@ -40,7 +39,7 @@ namespace rng_bot.Modules
         /// <param name="command"></param>
         /// <returns></returns>
         [Command("roll")]
-        [Summary("creates a result of rolling xdy\nex: to get a result between 2 and 8 !RNG roll 2d4")]
+        [Summary("creates a result of rolling [x]d[y]\nex: to get a result between 2 and 8 !RNG roll 2d4")]
         public async Task Roll(string command="")
         {
             if (command.IsNullOrEmpty())
@@ -56,8 +55,8 @@ namespace rng_bot.Modules
 
             if (results.Count > 0)
             {
-                commandHandler._prevRollCommand = command;
-                var rg = new RandomGen(commandHandler._rand);
+                commandHandler.prevRollCommand = command;
+                var rg = new RandomGen(commandHandler.rand);
 
                 int total = 0;
 
@@ -82,18 +81,18 @@ namespace rng_bot.Modules
         [Summary("re-rolls the last valid roll command")]
         public async Task ReRoll()
         {
-            if (commandHandler._prevRollCommand.IsNullOrEmpty())
+            if (commandHandler.prevRollCommand.IsNullOrEmpty())
             {
                 await ReplyAsync("No previous roll available.");
                 return;
             }
 
             var cp = new CommandParser();
-            var results = cp.ParseDieRoll(commandHandler._prevRollCommand);
+            var results = cp.ParseDieRoll(commandHandler.prevRollCommand);
 
             if (results.Count > 0)
             {
-                var rg = new RandomGen(commandHandler._rand);
+                var rg = new RandomGen(commandHandler.rand);
 
                 int total = 0;
 
@@ -130,7 +129,7 @@ namespace rng_bot.Modules
             var cp = new CommandParser();
             var parsedCommand = cp.ParseGenCommand(low, high);
 
-            var rg = new RandomGen(commandHandler._rand);
+            var rg = new RandomGen(commandHandler.rand);
             var result = rg.GenerateNum(parsedCommand.Low, parsedCommand.High);
 
             await ReplyAsync($"{result}");

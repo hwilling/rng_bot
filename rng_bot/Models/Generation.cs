@@ -5,7 +5,7 @@ using System.Text;
 
 namespace rng_bot.Models
 {
-    class Generation
+    public class Generation
     {
         public int Low { get; private set; }
         public int High { get; private set; }

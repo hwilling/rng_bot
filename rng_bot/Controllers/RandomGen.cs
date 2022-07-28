@@ -1,9 +1,10 @@
 ﻿using System;
-using rng_bot.Modules;
+using System.Collections.Generic;
+using rng_bot.Models;
 
 namespace rng_bot.Controllers
 {
-    class RandomGen
+    public class RandomGen
     {
         private const int _dieMinVal = 1;
         private Random _rand;
@@ -35,5 +36,12 @@ namespace rng_bot.Controllers
 
             return diceResults;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public RandomItem GenerateListResult(IList<RandomItem> items) => items[GenerateNum(1, items.Count) - 1];
     }
 }

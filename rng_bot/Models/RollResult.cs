@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace rng_bot.Modules
+namespace rng_bot.Models
 {
-    class RollResult
+    public class RollResult
     {
         public int Total { get; private set; }
         public List<int> Results { get; private set; }

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Discord;
+using Discord.Commands;
+using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
+using rng_bot.Services;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using Discord;
-using Discord.WebSocket;
-using Discord.Commands;
-using rng_bot.Services;
 
 namespace rng_bot
 {

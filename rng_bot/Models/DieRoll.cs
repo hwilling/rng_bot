@@ -4,7 +4,7 @@ using System.Text;
 
 namespace rng_bot.Models
 {
-    class DieRoll
+    public class DieRoll
     {
         public int NumDice { get; set; }
         public int MaxDieVal { get; set; }

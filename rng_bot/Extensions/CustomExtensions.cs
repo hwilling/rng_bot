@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace rng_bot.Extensions
+﻿namespace rng_bot.Extensions
 {
-    public static class CustomExtensions
+    public static class StringExtensions
     {
         /// <summary>
         /// Returns true if a string is null, otherwise returns false
