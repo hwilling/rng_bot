@@ -11,9 +11,9 @@ namespace rng_bot.Modules
     [Group("RNG")]
     public class RngModule : ModuleBase<SocketCommandContext>
     {
-        public CommandHandler commandHandler { get; set; }
 
         private readonly CommandService _service;
+        public CommandHandler CommandHandler { get; set; }
 
         public RngModule(CommandService service) => _service = service;
 
@@ -27,8 +27,14 @@ namespace rng_bot.Modules
         {
             EmbedBuilder embedBuilder = new EmbedBuilder();
 
-            _service.Commands.ToList()
-                .ForEach(x => embedBuilder.AddField(x.Name, x.Summary ?? "No description available\n"));
+            foreach (var command in _service.Commands)
+            {
+                var description = command.Summary.IsNullOrEmpty() ? command.Summary : "No description available\n";
+                embedBuilder.AddField(command.Name, description);
+            }
+
+            //_service.Commands.ToList()
+            //    .ForEach(x => embedBuilder.AddField(x.Name, x.Summary ?? "No description available\n"));
 
             await ReplyAsync("Here's a list of commands and their description: ", false, embedBuilder.Build());
         }
@@ -40,7 +46,7 @@ namespace rng_bot.Modules
         /// <returns></returns>
         [Command("roll")]
         [Summary("creates a result of rolling [x]d[y]\nex: to get a result between 2 and 8 !RNG roll 2d4")]
-        public async Task Roll(string command="")
+        public async Task Roll(string command="", string operation="", string amount="")
         {
             if (command.IsNullOrEmpty())
             {
@@ -48,15 +54,25 @@ namespace rng_bot.Modules
                 return;
             }
 
-            //TODO: roll based on command
             var cp = new CommandParser();
 
             var results = cp.ParseDieRoll(command);
 
             if (results.Count > 0)
             {
-                commandHandler.prevRollCommand = command;
-                var rg = new RandomGen(commandHandler.rand);
+                var total = await HandleDiceRoll();
+                await IncludeAmount(total);
+
+                return;
+            }
+
+            await ReplyAsync("Invalid command, type \"help roll\" for details on command usage.");
+
+            #region Local Functions
+            async Task<int> HandleDiceRoll()
+            {
+                CommandHandler.prevRollCommand = command;
+                var rg = new RandomGen(CommandHandler.Rand);
 
                 int total = 0;
 
@@ -65,12 +81,35 @@ namespace rng_bot.Modules
                     total += rg.RollDice(result.NumDice, result.MaxDieVal).Total;
                 }
 
-                await ReplyAsync($"{total}");
+                if (operation.IsNullOrEmpty())
+                {
+                    await ReplyAsync($"{total}");
+                    return total;
+                }
+
+                return total;
             }
-            else
+
+            async Task IncludeAmount(int total)
             {
-                await ReplyAsync("Invalid command, type \"help roll\" for details on command usage.");
+                int.TryParse(amount, out int amountVal);
+
+                if (operation == "+")
+                {
+                    total += amountVal;
+                    await ReplyAsync($"{total}");
+                    return;
+                }
+                else if (operation == "-")
+                {
+                    total -= amountVal;
+                    await ReplyAsync($"{total}");
+                    return;
+                }
+
+                return;
             }
+            #endregion
         }
 
         /// <summary>
@@ -81,18 +120,27 @@ namespace rng_bot.Modules
         [Summary("re-rolls the last valid roll command")]
         public async Task ReRoll()
         {
-            if (commandHandler.prevRollCommand.IsNullOrEmpty())
+            if (CommandHandler.prevRollCommand.IsNullOrEmpty())
             {
                 await ReplyAsync("No previous roll available.");
                 return;
             }
 
             var cp = new CommandParser();
-            var results = cp.ParseDieRoll(commandHandler.prevRollCommand);
+            var results = cp.ParseDieRoll(CommandHandler.prevRollCommand);
 
             if (results.Count > 0)
             {
-                var rg = new RandomGen(commandHandler.rand);
+                await HandleReroll();
+                return;
+            }
+
+            await ReplyAsync("Invalid command, type \"help roll\" for details on command usage.");
+
+            #region Local Functions
+            async Task HandleReroll()
+            {
+                var rg = new RandomGen(CommandHandler.Rand);
 
                 int total = 0;
 
@@ -102,11 +150,9 @@ namespace rng_bot.Modules
                 }
 
                 await ReplyAsync($"{total}");
+                return;
             }
-            else
-            {
-                await ReplyAsync("Invalid command, type \"help roll\" for details on command usage.");
-            }
+            #endregion
         }
 
         /// <summary>
@@ -125,11 +171,10 @@ namespace rng_bot.Modules
                 return;
             }
 
-            //TODO: generate a random number based on command input
             var cp = new CommandParser();
             var parsedCommand = cp.ParseGenCommand(low, high);
 
-            var rg = new RandomGen(commandHandler.rand);
+            var rg = new RandomGen(CommandHandler.Rand);
             var result = rg.GenerateNum(parsedCommand.Low, parsedCommand.High);
 
             await ReplyAsync($"{result}");

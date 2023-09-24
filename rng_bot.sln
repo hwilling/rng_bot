@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29728.190
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rng_bot", "rng_bot\rng_bot.csproj", "{6C8820D8-C37D-4C38-82E1-B4005BAEB8FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "rng_bot", "rng_bot\rng_bot.csproj", "{6C8820D8-C37D-4C38-82E1-B4005BAEB8FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shops", "Shops\Shops.csproj", "{B8BFFB0F-2CCA-43D1-A4DC-37DC8E3EC5C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8713CD35-749A-4B57-9A2C-8924F9EA83EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6C8820D8-C37D-4C38-82E1-B4005BAEB8FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C8820D8-C37D-4C38-82E1-B4005BAEB8FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C8820D8-C37D-4C38-82E1-B4005BAEB8FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8BFFB0F-2CCA-43D1-A4DC-37DC8E3EC5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8BFFB0F-2CCA-43D1-A4DC-37DC8E3EC5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8BFFB0F-2CCA-43D1-A4DC-37DC8E3EC5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8BFFB0F-2CCA-43D1-A4DC-37DC8E3EC5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8713CD35-749A-4B57-9A2C-8924F9EA83EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8713CD35-749A-4B57-9A2C-8924F9EA83EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8713CD35-749A-4B57-9A2C-8924F9EA83EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8713CD35-749A-4B57-9A2C-8924F9EA83EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

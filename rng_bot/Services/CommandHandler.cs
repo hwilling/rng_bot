@@ -2,7 +2,10 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using rng_bot.Controllers;
+using rng_bot.Models;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -14,7 +17,8 @@ namespace rng_bot.Services
         private readonly DiscordSocketClient _discord;
         private readonly IServiceProvider _services;
         public string prevRollCommand { get; set; } = "";
-        public Random rand = new Random();
+        public Random Rand { get; set; } = new Random();
+        public CustomCollectionController CustomCollectionController { get; set; } = new CustomCollectionController();
 
         public CommandHandler(IServiceProvider services)
         {
@@ -24,6 +28,9 @@ namespace rng_bot.Services
 
             _commands.CommandExecuted += CommandExecutedAsync;
             _discord.MessageReceived += MessageReceivedAsync;
+
+            var jsonController = new JsonController();
+            CustomCollectionController.RandomItemCollections = jsonController.LoadData<IList<RandomItemCollection>>("CustomLists.json");
         }
 
         public async Task InitializeAsync()

@@ -1,11 +1,12 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Newtonsoft.Json;
 
 namespace rng_bot.Controllers
 {
     public class JsonController
     {
-        private readonly string _customCollectionDir = "";
+        private readonly string _customCollectionDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         /// <summary>
         /// Save current state of given object as a JSON file.
